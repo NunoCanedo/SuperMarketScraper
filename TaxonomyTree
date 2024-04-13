@@ -1,0 +1,106 @@
+## IMPORT LIBRARIES
+
+import requests
+import SqlFunctions
+import AuxFunctions
+
+
+
+## Variables
+
+Sainsburys_Taxonomy = []
+
+## Taxonomy  URL to scrape
+
+url = "https://www.sainsburys.co.uk/groceries-api/gol-services/product/v1/product/taxonomy"
+
+
+
+##Define Headers to avoid 403 response(error) when scraping
+
+headers = {'method': 'GET',
+        'Accept-Language': 'en-US,en;q=0.9,pt;q=0.8,es;q=0.7',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+
+
+
+
+## Functions to define sub-categories and assign ID to each of then
+
+def aisle(category_tree):
+    c = 10
+    for aisle in category_tree.get('category_children'):
+        aisle_tree = {
+            'department_name': category_tree.get('department_name'),
+            #'department_ID': category_tree.get('department_ID'),
+            'category_name': category_tree.get('category_name'),
+            #'category_ID': category_tree.get('category_ID'),
+            'aisle_name': aisle.get('name'),
+            'aisle_ID': AuxFunctions.numConcat(category_tree.get('department_ID'), category_tree.get('category_ID'), 99,c),
+            'web_ID': aisle.get('id'),
+            'shelve': 'NULL',
+            'shleve_ID': AuxFunctions.numConcat(category_tree.get('department_ID'), category_tree.get('category_ID'), 99, c)
+        }
+        c+=1
+        if aisle.get('children') == []:
+            Sainsburys_Taxonomy.append(aisle_tree)
+            
+        else:
+            shelve = aisle.get('children')
+            d = 10
+            for name in shelve:
+                aisle_tree_2 = {
+                'department_name': category_tree.get('department_name'),
+                #'department_ID': category_tree.get('department_ID'),
+                'category_name': category_tree.get('category_name'),
+                #'category_ID': category_tree.get('category_ID'),
+                'aisle_name': aisle.get('name'),
+                #'aisle_ID': c,
+                'page_ID': aisle.get('id'),
+                'shelve': name.get('name'),
+                'shleve_ID': AuxFunctions.numConcat(category_tree.get('department_ID'), category_tree.get('category_ID'), c, d),
+                'web_ID': name.get('id')
+            }
+                d +=1
+                Sainsburys_Taxonomy.append(aisle_tree_2)
+                
+
+
+def category(items):
+    b = 10
+    for category in items.get('children'):
+        category_tree = {
+            'department_name': items.get('name'),
+            'department_ID': items.get('department_ID'),
+            'category_name': category.get('name'),
+            'category_ID': b,
+            'category_children': category.get('children')
+        }
+        b+=1
+        aisle(category_tree)
+
+
+
+
+##Function to Parse the data
+
+def parser(url, headers):
+
+    tree = requests.get(url, headers=headers).json()
+    data = tree['data']
+    a = 10   
+    for department in data:
+        
+        department = {
+            'name': department.get('name'),
+            'department_ID': a,
+            'children': department.get('children')
+            }
+        a+=1
+        category(department)
+
+
+parser(url, headers)
+
+SqlFunctions.sql_save_taxonomy('Sainsburys_Taxonomy', Sainsburys_Taxonomy)
