@@ -18,9 +18,9 @@ def connection_db(database):
     ## Define parametrs to connect python to MYSQL
 
     db = mysql.connector.connect(
-        host = 'localhost',
-        user = 'root',
-        passwd = '1001',
+        host = 'localhost',    ## IN MY CASE IS A LOCAL DATABASE
+        user = 'YourUserName',    ##INPUT YOUR OWN USERNAME
+        passwd = 'YourPasswor',    ## INPUT YOUR OWN PASSWORD
         database = 'SuperMarketScraper'
     )
     
@@ -34,9 +34,9 @@ def sql_save_taxonomy(table_name, tree_data):
     ## Define parametrs to connect python to MYSQL
 
     db = mysql.connector.connect(
-        host = 'localhost',
-        user = 'root',
-        passwd = '1001',
+        host = 'localhost',    ## IN MY CASE IS A LOCAL DATABASE
+        user = 'YourUserName',    ##INPUT YOUR OWN USERNAME
+        passwd = 'YourPasswor',    ## INPUT YOUR OWN PASSWORD
         database = 'SuperMarketScraper'
     )
     
@@ -67,9 +67,9 @@ def sql_save_taxonomy(table_name, tree_data):
 def SQL_connection(url):
 
     db = mysql.connector.connect(
-        host = 'localhost',
-        user = 'root',
-        passwd = '1001',
+        host = 'localhost',    ## IN MY CASE IS A LOCAL DATABASE
+        user = 'YourUserName',    ##INPUT YOUR OWN USERNAME
+        passwd = 'YourPasswor',    ## INPUT YOUR OWN PASSWORD
         database = 'SuperMarketScraper'
     )
 
@@ -91,9 +91,9 @@ def url(table_name):
     # Open the DataBase to collect the data (web_page_ID)
 
     db = mysql.connector.connect(
-            host = 'localhost',
-            user = 'root',
-            passwd = '1001',
+            host = 'localhost',    ## IN MY CASE IS A LOCAL DATABASE
+        user = 'YourUserName',    ##INPUT YOUR OWN USERNAME
+        passwd = 'YourPasswor',    ## INPUT YOUR OWN PASSWORD
             database = 'SuperMarketScraper'
         )
 
@@ -114,9 +114,9 @@ def url(table_name):
 def insert_values(page_data, table_name):
 
     db = mysql.connector.connect(
-        host = 'localhost',
-        user = 'root',
-        passwd = '1001',
+        host = 'localhost',    ## IN MY CASE IS A LOCAL DATABASE
+        user = 'YourUserName',    ##INPUT YOUR OWN USERNAME
+        passwd = 'YourPasswor',    ## INPUT YOUR OWN PASSWORD
         database = 'SuperMarketScraper'
     )
 
