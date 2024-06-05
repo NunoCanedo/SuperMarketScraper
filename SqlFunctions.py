@@ -92,8 +92,8 @@ def url(table_name):
 
     db = mysql.connector.connect(
             host = 'localhost',    ## IN MY CASE IS A LOCAL DATABASE
-        user = 'YourUserName',    ##INPUT YOUR OWN USERNAME
-        passwd = 'YourPasswor',    ## INPUT YOUR OWN PASSWORD
+            user = 'YourUserName',    ##INPUT YOUR OWN USERNAME
+            passwd = 'YourPasswor',    ## INPUT YOUR OWN PASSWORD
             database = 'SuperMarketScraper'
         )
 
